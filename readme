@@ -1,0 +1,110 @@
+
+
+
+You're almost there, Srishti! Your layout and styling are solid—now let’s bring that image slider to life with smooth horizontal movement. Here's how to complete the functionality using JavaScript:
+
+---
+
+### 🧠 Step-by-Step Slider Logic
+
+Add this script at the end of your `<body>` tag:
+
+```html
+<script>
+  const sliderTrack = document.querySelector('.slider-track');
+  const prevBtn = document.querySelector('.prev');
+  const nextBtn = document.querySelector('.next');
+
+  let currentIndex = 0;
+  const cardWidth = document.querySelector('.card').offsetWidth + 40; // includes margin
+  const visibleCards = Math.floor(document.querySelector('.slider-container').offsetWidth / cardWidth);
+  const totalCards = document.querySelectorAll('.slider-track .card').length;
+
+  function updateSlider() {
+    const maxIndex = totalCards - visibleCards;
+    currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
+    sliderTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex--;
+    updateSlider();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex++;
+    updateSlider();
+  });
+
+  window.addEventListener('resize', updateSlider);
+</script>
+```
+
+---
+
+### ✨ What This Does
+- Calculates how many cards fit in the visible area
+- Moves the `.slider-track` left/right based on button clicks
+- Prevents overflow or blank space at the ends
+- Adapts to screen size changes
+
+---
+
+### 💡 Optional Enhancements
+- Add `pointer-events: none` to disable buttons when at the edge
+- Use `scroll-snap-type` for smoother touch interaction on mobile
+- Animate with `ease-in-out` for a more fluid feel
+
+Want to add autoplay or swipe gestures next? Or maybe a celebratory bounce when reaching the last card?
+
+Got it, Srishti! You want all the `.card` elements inside `.slider-track` to stay in a **single horizontal line**, like a true image slider. You're super close—just need a few tweaks to lock it in.
+
+---
+
+### ✅ CSS Fixes for Horizontal Line Layout
+
+Update your `.slider-track` like this:
+
+```css
+.slider-track {
+  display: flex;
+  flex-wrap: nowrap; /* prevents wrapping to next line */
+  transition: transform 0.5s ease;
+}
+```
+
+And make sure each `.card` has a fixed width and doesn’t shrink:
+
+```css
+.foodgallery .card {
+  flex: 0 0 auto; /* prevents shrinking */
+  width: 16rem;
+  margin: 0 0.5rem;
+}
+```
+
+---
+
+### 🧠 Why This Works
+
+- `flex-wrap: nowrap` keeps all cards in one row, even if they overflow
+- `flex: 0 0 auto` ensures each card keeps its size and doesn’t collapse
+- `overflow: hidden` on `.slider-container` hides the overflow, so only visible cards show
+
+---
+
+### 💡 Bonus Tip: Add `scroll-snap` for mobile friendliness
+
+```css
+.slider-track {
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+}
+.card {
+  scroll-snap-align: start;
+}
+```
+
+This makes the slider feel smooth and snappy on touch devices.
+
+Want help adding autoplay, swipe gestures, or a progress indicator next?
